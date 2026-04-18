@@ -1,0 +1,10 @@
+﻿python :   File "<string>", line 13
+En línea: 1 Carácter: 1
++ python -c "
++ ~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  File "<string>", line 13:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    print(f'--- CELL {i} ({cell[" cell_type\]})
+                                ^
+SyntaxError: unterminated string literal (detected at line 13)

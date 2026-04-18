@@ -1,0 +1,128 @@
+﻿--- PAG 1 ---
+Parte I: Regresi├│n Lineal Bayesiana
+1. Planteamiento del modelo
+En esta primera parte del taller se propone un modelo de regresi├│n lineal bayesiana para
+analizar la variable total driver payout dentro del experimento de UBER Pool en Bogot├í.
+La pregunta de an├ílisis es la siguiente:
+┬┐Qu├® factores est├ín asociados con el pago total a los conductores en el experi-
+mento de UBER Pool en Bogot├í?
+2. Selecci├│n de la variable objetivo
+Se eligi├│ total driver payout como variable objetivo porque nos permite analizar si la
+implementaci├│n de UBER Pool puede resultar costosa desde el punto de vista operativo para
+la plataforma. En otras palabras, esta variable muestra cu├ínto se les paga a los conductores
+en cada periodo y por eso sirve como una aproximaci├│n al costo operativo del servicio.
+Adem├ís,estaelecci├│ntambi├®ntienesentidometodol├│gicamente,yaquetotal driver payout
+es una variable num├®rica continua y por eso se ajusta mejor a un modelo de regresi├│n lineal
+bayesiana que otras variables de la base que son de conteo o categ├│ricas.
+3. Selecci├│n de variables explicativas
+Como variables explicativas se seleccionaron treat, commute y total matches, porque entre
+todas ayudan a describir condiciones importantes del experimento.
+La variable treat es importante porque permite estudiar si cambiar el tiempo de espera
+del algoritmo de emparejamiento, pasando de 2 a 5 minutos, influye sobre el costo total del
+servicio.
+1
+--- PAG 2 ---
+Lavariablecommuteseincluy├│porquelashoraspicopuedencambiarbastantelascondiciones
+de operaci├│n, generar mayor presi├│n sobre el sistema y afectar los pagos realizados a los
+conductores.
+Finalmente, total matches se eligi├│ porque refleja el nivel de emparejamiento entre pasaje-
+ros. Si el sistema logra m├ís emparejamientos, eso podr├¡a indicar una operaci├│n m├ís eficiente
+y, en principio, una posible reducci├│n del costo para la aplicaci├│n.
+4. Especificaci├│n inicial del modelo
+La formulaci├│n inicial propuesta es:
+total driver payout = ╬▓ +╬▓ treat +╬▓ commute +╬▓ total matches (miles) +╬Á
+i 0 1 i 2 i 3 i i
+donde ╬Á Ôê╝ N(0,¤â2).
+i
+En este modelo:
+╬▓ representa el valor esperado base del pago total a conductores.
+0
+╬▓ mide el cambio esperado en el pago total cuando el tratamiento corresponde a un
+1
+tiempo de espera de 5 minutos.
+╬▓ mide el cambio esperado en el pago total durante hora pico.
+2
+╬▓ mide la asociaci├│n entre 1000 emparejamientos adicionales y el pago total a conduc-
+3
+tores.
+5. Carga y revisi├│n de la base
+Se carg├│ la base bases/Copia de BaseUBER.csv y se verific├│ su estructura antes de ajustar
+el modelo. Los principales resultados de revisi├│n fueron:
+n├║mero de observaciones: 126.
+variables disponibles: 10.
+valores faltantes: no se encontraron faltantes en ninguna variable.
+codificaci├│n de tratamiento: FALSO/VERDADERO con 63 observaciones por grupo.
+2
+--- PAG 3 ---
+codificaci├│n de hora pico (commute): 20 observaciones en hora pico y 106 fuera de hora
+pico.
+Para evitar problemas de escala en la estimaci├│n, total matches se reescal├│ en miles.
+6. Ajuste del modelo y calibraci├│n de la prior
+La especificaci├│n bayesiana del modelo requiere definir distribuciones previas para los coefi-
+cientes y para la variabilidad del error. En este trabajo se propone usar priors no informativas
+(o d├®bilmente informativas) para todos los coeficientes.
+La decisi├│n de usar priors d├®bilmente informativos se tom├│ para dejar que los datos del
+experimento pesen m├ís en la estimaci├│n final. As├¡ evitamos imponer creencias a priori que
+pudiesen alterar el efecto medido de forma subjetiva.
+Encambio,para commutey total matches seasume unapostura m├ís conservadora.Aunque
+ambas variables podr├¡an influir sobre el costo operativo, no tenemos una idea previa tan clara
+sobre la magnitud exacta de ese efecto, as├¡ que se usan priors d├®bilmente informativas con
+varianzas grandes.
+La calibraci├│n de la prior se hizo con la escala real de la base:
+media de total driver payout: 28237,22.
+desviaci├│n est├índar de total driver payout: 5450,95.
+diferencia simple de medias por tratamiento (5 mins menos 2 mins): ÔêÆ2108,04.
+Con esta referencia, la especificaci├│n utilizada fue:
+╬▓ Ôê╝ N(28000,100002)
+0
+╬▓ Ôê╝ N(0,100002)
+1
+╬▓ Ôê╝ N(0,100002)
+2
+╬▓ Ôê╝ N(0,100002)
+3
+3
+--- PAG 4 ---
+adem├ís de una prior Inverse-Gamma para ¤â2 con hiperpar├ímetros a = 2 y b = 40002.
+0 0
+donde ╬▓ representa el efecto de treat. Decidimos configurar esta prior centrada en cero
+1
+y con una varianza alta (100002). Esto permite que los datos dominen el ajuste final; de
+esta forma, no encasillamos el modelo a una expectativa inicial sobre el verdadero impacto
+financiero de la pol├¡tica.
+7. Resultados bayesianos iniciales
+A partir del ajuste bayesiano con la base completa (n = 126), se obtuvo el siguiente resumen
+posterior:
+Par├ímetro Media posterior CrI 95% inferior CrI 95% superior
+╬▓ (Intercepto) 16882.71 13201.05 20558.09
+0
+╬▓ (treat) -1253.44 -2357.83 -159.40
+1
+╬▓ (commute) 5457.89 3015.19 7873.58
+2
+╬▓ (total matches en miles) 4383.55 2902.14 5867.78
+3
+Cuadro 1: Resumen posterior de coeficientes del modelo lineal bayesiano.
+Adicionalmente, la probabilidad posterior de que el efecto del tratamiento sea negativo fue:
+P(╬▓ < 0 | datos) = 0,9873
+1
+Este resultado respalda la hip├│tesis de trabajo: con alta probabilidad posterior, el esquema
+de espera de 5 minutos se asocia con una reducci├│n del pago total a conductores, controlando
+por hora pico y nivel de emparejamiento.
+8. Diagn├│stico y chequeo de ajuste
+Para el chequeo de ajuste emp├¡rico del modelo, calculamos las predicciones usando el vector
+de medias posteriores y sacamos los residuos contra los datos reales Y. La Figura 2 contiene
+el gr├ífico de dispersi├│n obtenido.
+El gr├ífico evidencia que los residuos se distribuyen de manera m├ís o menos sim├®trica por
+encimaypordebajodelcero,sinqueseobserveunerrorsistem├íticoclaroopatronesevidentes
+de no linealidad. Aunque es claro que la dispersi├│n global de los datos es grande, algo que
+concuerda con la alt├¡sima variabilidad de los viajes en una ciudad como Bogot├í, el modelo
+4
+--- PAG 5 ---
+Figura 1: Distribuciones posteriores de los coeficientes del modelo.
+lineal logra capturar bien el efecto medio en los pagos a conductores. Esto nos da un punto
+de apoyo v├ílido para evaluar y sustentar la idea de ampliar el tiempo de espera.
+5
+--- PAG 6 ---
+Figura 2: Chequeo de ajuste: Residuos vs. Valores ajustados.
+6

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Jupyter Notebooks (Solo temporales, conservamos .ipynb)
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IDEs
+.vscode/
+.idea/
+
+# Antigravity/Gemini (Assistant backup)
+.gemini/
+
+# OS
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,186 @@
+﻿--- CELL 1 (code) ---
+import arviz as az
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pymc as pm
+import seaborn as sns
+
+from scipy.special import expit as inverse_logit
+from sklearn.metrics import RocCurveDisplay, auc, roc_curve
+
+--- CELL 2 (code) ---
+RANDOM_SEED = 8927
+rng = np.random.default_rng(RANDOM_SEED)
+az.style.use("arviz-darkgrid")
+
+--- CELL 3 (code) ---
+# Number of data points
+n = 250
+# Create features
+x1 = rng.normal(loc=0.0, scale=2.0, size=n)
+x2 = rng.normal(loc=0.0, scale=2.0, size=n)
+# Define target variable
+intercept = -0.5
+beta_x1 = 1
+beta_x2 = -1
+beta_interaction = 2
+z = intercept + beta_x1 * x1 + beta_x2 * x2 + beta_interaction * x1 * x2
+p = inverse_logit(z)
+# note binomial with n=1 is equal to a Bernoulli
+y = rng.binomial(n=1, p=p, size=n)
+df = pd.DataFrame(dict(x1=x1, x2=x2, y=y))
+df.head()
+
+--- CELL 4 (code) ---
+sns.pairplot(data=df, kind="scatter");
+
+--- CELL 5 (code) ---
+fig, ax = plt.subplots()
+sns.scatterplot(x="x1", y="x2", data=df, hue="y")
+ax.legend(title="y")
+ax.set(title="Sample Data", xlim=(-9, 9), ylim=(-9, 9));
+
+--- CELL 6 (code) ---
+labels = ["Intercept", "x1", "x2", "x1:x2"]
+df["Intercept"] = np.ones(len(df))
+df["x1:x2"] = df["x1"] * df["x2"]
+# reorder columns to be in the same order as labels
+df = df[labels]
+x = df.to_numpy()
+
+--- CELL 7 (code) ---
+indices = rng.permutation(x.shape[0])
+train_prop = 0.7
+train_size = int(train_prop * x.shape[0])
+training_idx, test_idx = indices[:train_size], indices[train_size:]
+x_train, x_test = x[training_idx, :], x[test_idx, :]
+y_train, y_test = y[training_idx], y[test_idx]
+
+--- CELL 8 (code) ---
+coords = {"coeffs": labels}
+
+with pm.Model(coords=coords) as model:
+    # data containers
+    X = pm.MutableData("X", x_train)
+    y = pm.MutableData("y", y_train)
+    # priors
+    b = pm.Normal("b", mu=0, sigma=1, dims="coeffs")
+    # linear model
+    mu = pm.math.dot(X, b)
+    # link function
+    p = pm.Deterministic("p", pm.math.invlogit(mu))
+    # likelihood
+    pm.Bernoulli("obs", p=p, observed=y)
+
+pm.model_to_graphviz(model)
+
+--- CELL 9 (code) ---
+with model:
+    idata = pm.sample()
+
+--- CELL 10 (code) ---
+az.plot_trace(idata, var_names="b", compact=False);
+
+--- CELL 11 (code) ---
+az.summary(idata, var_names="b")
+
+--- CELL 12 (code) ---
+az.plot_posterior(
+    idata, var_names=["b"], ref_val=[intercept, beta_x1, beta_x2, beta_interaction], figsize=(15, 4)
+);
+
+--- CELL 13 (code) ---
+with model:
+    pm.set_data({"X": x_test, "y": y_test})
+    idata.extend(pm.sample_posterior_predictive(idata))
+
+--- CELL 14 (code) ---
+# Compute the point prediction by taking the mean and defining the category via a threshold.
+p_test_pred = idata.posterior_predictive["obs"].mean(dim=["chain", "draw"])
+y_test_pred = (p_test_pred >= 0.5).astype("int").to_numpy()
+
+--- CELL 15 (code) ---
+print(f"accuracy = {np.mean(y_test==y_test_pred): 0.3f}")
+
+--- CELL 16 (code) ---
+fpr, tpr, thresholds = roc_curve(
+    y_true=y_test, y_score=p_test_pred, pos_label=1, drop_intermediate=False
+)
+roc_auc = auc(fpr, tpr)
+
+fig, ax = plt.subplots()
+roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc)
+roc_display = roc_display.plot(ax=ax, marker="o", markersize=4)
+ax.set(title="ROC");
+
+--- CELL 17 (code) ---
+def make_grid():
+    x1_grid = np.linspace(start=-9, stop=9, num=300)
+    x2_grid = x1_grid
+    x1_mesh, x2_mesh = np.meshgrid(x1_grid, x2_grid)
+    x_grid = np.stack(arrays=[x1_mesh.flatten(), x2_mesh.flatten()], axis=1)
+    return x1_grid, x2_grid, x_grid
+
+
+x1_grid, x2_grid, x_grid = make_grid()
+
+with model:
+    # Create features on the grid.
+    x_grid_ext = np.hstack(
+        (
+            np.ones((x_grid.shape[0], 1)),
+            x_grid,
+            (x_grid[:, 0] * x_grid[:, 1]).reshape(-1, 1),
+        )
+    )
+    # set the observed variables
+    pm.set_data({"X": x_grid_ext})
+    # calculate pushforward values of `p`
+    ppc_grid = pm.sample_posterior_predictive(idata, var_names=["p"])
+
+--- CELL 18 (code) ---
+# grid of predictions
+grid_df = pd.DataFrame(x_grid, columns=["x1", "x2"])
+grid_df["p"] = ppc_grid.posterior_predictive.p.mean(dim=["chain", "draw"])
+p_grid = grid_df.pivot(index="x2", columns="x1", values="p").to_numpy()
+
+--- CELL 19 (code) ---
+def calc_decision_boundary(idata, x1_grid):
+    # posterior mean of coefficients
+    intercept = idata.posterior["b"].sel(coeffs="Intercept").mean().data
+    b1 = idata.posterior["b"].sel(coeffs="x1").mean().data
+    b2 = idata.posterior["b"].sel(coeffs="x2").mean().data
+    b1b2 = idata.posterior["b"].sel(coeffs="x1:x2").mean().data
+    # decision boundary equation
+    return -(intercept + b1 * x1_grid) / (b2 + b1b2 * x1_grid)
+
+--- CELL 20 (code) ---
+fig, ax = plt.subplots()
+
+# data
+sns.scatterplot(
+    x=x_test[:, 1].flatten(),
+    y=x_test[:, 2].flatten(),
+    hue=y_test,
+    ax=ax,
+)
+
+# decision boundary
+ax.plot(x1_grid, calc_decision_boundary(idata, x1_grid), color="black", linestyle=":")
+
+# grid of predictions
+ax.contourf(x1_grid, x2_grid, p_grid, alpha=0.3)
+
+ax.legend(title="y", loc="center left", bbox_to_anchor=(1, 0.5))
+ax.set(title="Model Decision Boundary", xlim=(-9, 9), ylim=(-9, 9), xlabel="x1", ylabel="x2");
+
+--- CELL 23 (code) ---
+# Resumen de la posterior
+az.summary(trace)
+
+# Graficar las trazas de las muestras
+az.plot_trace(trace)
+plt.show()
+
+
