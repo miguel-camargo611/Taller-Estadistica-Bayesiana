@@ -18,52 +18,54 @@
 ### Slide 3: Parte I - Caso UBER Pool y Setup Bayesiano (40 segundos)
 **Orador 2:**
 "Empezaremos analizando financieramente a UBER Pool. La pregunta que motivó nuestra regresión Bayesiana fue si introducir este servicio lograba aumentar las ganancias conjuntas entre choferes. Nuestra variable observada continua es `total_driver_payout`.
-Utilizamos como predictores clave el tratamiento (si activamos Pool o no), la hora de alta congestión y emparejamientos netos. Y lo más importante: usamos pre-distribuciones *Normal-Inversa-Gamma* cerradas, asumiendo muchísima ignorancia inicial con una varianza altísima de diez mil dólares."
+Utilizamos como predictores clave el tratamiento (si activamos Pool o no), la hora de alta congestión y emparejamientos netos. Y lo más importante: asumimos ignorancia inicial estipulando que los betas se distribuyen de forma normal con media 0 y varianza alta, y priorizamos un sigma de diez mil dólares."
 
 ---
 
-### Slide 4: Resultados Posteriores: Efecto UBER Pool (45 segundos)
+### Slide 4: Distribuciones Posteriores: Efecto UBER Pool (45 segundos)
 **Orador 2:**
-"Al actualizar matemáticamente la certidumbre con los datos empíricos de las fórmulas cerradas, llegamos a estos resultados posteriores. Observemos la métrica estelar: el Parámetro de Tratamiento $\beta_1$.
-En nuestra tabla y distribuciones con Monte Carlo, confirmamos que el impacto de activar UBER Pool promedió un asombroso revés negativo de -$1,250 dólares por corte. La campana roja en el gráfico se localiza sólidamente por debajo de cero, con una probabilidad exacta de reducción de ganancias del **98.7%**. Categóricamente, UBER Pool fracasó a corto plazo."
+"Al actualizar matemáticamente la certidumbre con los datos empíricos de las fórmulas cerradas, llegamos a estos resultados posteriores en la pantalla. *(El Orador desliza los distintos gráficos por cada variable en el carrusel de la derecha)*.
+Si detallamos la tabla fija que ven a su izquierda, la métrica estelar siempre es el Parámetro de Tratamiento $\beta_1$.
+Ese intervalo de credibilidad que oscila entre -2300 a -135 no cruza el cero. Esto confirma categóricamente que el efecto es negativo en la mayoría absoluta de los escenarios, indicando que UBER Pool redujo estructuralmente las ganancias del chofer."
 
 ---
 
 ### Slide 5: Diagnóstico Residual del Modelo (UBER) (20 segundos)
 **Orador 3:**
-"Nuestra afirmación del 98.7% de certeza es estadísticamente sólida. Si vemos en detalle la dispersión de nuestros residuos contra los valores ajustados, notamos una nube aleatoria exenta de patrones en embudo, validando en su totalidad la homosedasticidad inferida."
+"Nuestra inferencia está estadísticamente blindada. Si vemos en detalle la dispersión de nuestros residuos contra los valores ajustados, notamos una nube aleatoria exenta de patrones en embudo, validando en su totalidad la homosedasticidad teórica requerida."
 
 ---
 
 ### Slide 6: Parte II - Movistar Arena & Setup Bayesiano (40 segundos)
 **Orador 3:**
-"Ahora, pasemos al *Movistar Arena*. Su mayor problema es predecir tipos de consumidores o 'Customer Types'. Sabemos que las personas compran impulsivamente (*Last-Minute*), moderadamente, o como parte de un plan anticipado (*Planner*).
-Como las variables siguen un orden, usamos un enfoque numérico de **Logit Ordinal**. Aquí filtramos 1000 perfiles emparejando sus 'targets' ordinales contra precursores clave del diccionario ilustrado [Edad, Compras, etc]. Esto lo optimizamos programático a través de *MCMC*, infiriendo una Normal débil (con escala en cien) sobre tanto los betas como en los puntos de corte o _'cutpoints'_."
+"Ahora, pasemos al *Movistar Arena*. Su mayor problema es predecir tipos de consumidores. Sabemos que las personas compran impulsivamente (*Last-Minute*), moderadamente, o como parte de un plan anticipado (*Planner*).
+Como las variables son tres escalones sucesivos, usamos un modelo de **Logit Ordinal**. Las distribuciones A Priori aquí son formales y dispersas: los betas distribuyen Normal con media cero y varianza de 100, para que el sistema de MCMC, mediante PyMC, logre inferir de forma objetiva sobre los 'cutpoints'."
 
 ---
 
-### Slide 7: EDA y Pruebas de Asociación (35 segundos)
+### Slide 7: Selección de Variables y Análisis Bivariado (35 segundos)
 **Orador 3:**
-"Para blindar la homogeneidad de los datos, pre-testeamos con Kruskal-Wallis y Chi-Cuadrado si las categorías diferían. Y como demuestran nuestros p-valores fuertemente nulos y los boxplots, las diferencias son extremas y obvias. **Hallazgo principal:** A los compradores *Planner* es donde predomina el rango mayor de edad, la compra de muchas más boletas, y sobre todo, altísimos gastos adicionales en comida y mercancía. El ticket price, sin embargo, se comporta variable."
+"Nuestro conjunto abarca indicadores de edad, tickets comprados y gasto en concesiones. Sin embargo, para blindar la utilidad del modelo, realizamos rigurosas pruebas formales. *(El Orador desliza los boxplots hasta la cuarta pestaña: Tablas)*.
+Aquí pueden ver los p-valores de Kruskal-Wallis y Chi-Cuadrado: son infinitesimalmente bajos. Todos rechazan contundentemente la hipótesis nula, lo que visualizamos en los Boxplots anteriores: un perfil Planner difiere drásticamente de un Last-Minute desde los estadísticos base."
 
 ---
 
-### Slide 8: Resultados Posteriores Ordinal Beta (40 segundos)
+### Slide 8: Resultados Posteriores: 94% HDI (40 segundos)
 **Orador 1:**
-"Tras insertar las covariables al algoritmo computacional MCMC de PyMC, obtenemos este *Forest Plot* recapitulando las medias y sus intervalos de confianza. En el recuadro inferior pueden ver a qué variable corresponde cada 'Beta'.
-¿Qué explica la lealtad de un cliente hacia el estatus Planner? Como se evidencia, la edad, el número de tickets y ostentar altísimos gastos de concesión no se solapan con el cero. Por otra parte, la suscripción al fan mailing y las variables relativas al asiento muestran oscilaciones neutras menos decisivas."
+"Insertadas estas variables al NUTS posterior, obtenemos este Forest Plot de estimadores Beta. La lectura es clarísima: La Edad, el bloque de Tickets y gastar en comida tienen HDIs totalmente positivos a la derecha del cero, forzando la probabilidad de ser un cliente Planner. 
+Sin embargo, noten la tabla inferior: **beta 5 (Seat Front) y beta 6 (Seat Balcony)** sí traslapan la línea del Cero en su estimación, volviéndose estadísticamente neutros e incapaces de direccionar a una de las clases."
 
 ---
 
-### Slide 9: Diagnóstico Cadenas MCMC: Trazas Individuales (30 segundos)
+### Slide 9: Diagnóstico Cadenas MCMC: Trazas (30 segundos)
 **Orador 1:**
-"Estos resultados predictivos están garantizados por el correcto mezclado de NUTS. En este carrusel horizontal o trazas, ilustramos separadamente las oscilaciones de los siete Betas. Su convergencia es ideal y no adolecen de auto-correlación fuerte, respaldando sólidamente nuestras simulaciones con un valor \(\hat{R}\) perfecto de 1."
+"Con la tranquilidad sobre la inferencia, observamos aquí nuestro carrusel de convergencias. El tamaño efectivo de muestras es abundante y los valores de R-hat son casi 1 perfecto, por lo que el algoritmo navegó impecablemente sobre los siete estimadores."
 
 ---
 
-### Slide 10: Curva Ordinal Latente Probabilidades (35 segundos)
+### Slide 10: Curva Ordinal Latente (35 segundos)
 **Orador 2:**
-"¿Cómo se traduce esta puntuación a un comportamiento real? Este gráfico es clave: muestra las probabilidades de clasificación basándose en la puntuación latente logística (o `eta`). Las curvas y sus *cutpoints* o _theta_ actúan como divisores rígidos o barreras. Si la puntuación de nuestro modelo empuja a los individuos más allá de las fronteras naranjas impuestas, el usuario escapará probabilísticamente de la barrera de *Last-Minute* para internarse puramente en terreno *Planner*."
+"El resultado paramétrico aterriza aquí: la transformación Logit Ordinal Puntuación (o `eta` en el eje X) contra la probabilidad acumulada de cada perfil. Esta visualización se lee cruzando las barras divisorias o *Cutpoints*: Si sumas positivamente métricas, como edad y snacks, te alejas puramente hacia la derecha de la gráfica, escapando del espectro inicial azul del 'Last-Minute' y adentrándote irremediablemente en la zona de Planner."
 
 ---
 
