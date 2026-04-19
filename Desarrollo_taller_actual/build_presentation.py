@@ -777,7 +777,7 @@ for i, tr in enumerate(img_trace):
     html = html.replace(f'__IMG_T{i}__', tr)
 html = html.replace('__IMG_PROB__', img_ordinal_prob)
 
-with open('presentacion_taller.html', 'w', encoding='utf-8') as f:
+with open('index.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
 print("HTML Regenerado Mágico - Componentes Multi-Carrusel Habilitados")
