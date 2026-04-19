@@ -71,7 +71,7 @@ Sin embargo, noten la tabla inferior: **beta 5 (Seat Front) y beta 6 (Seat Balco
 
 ### Slide 11: Sinergia Operativa - Propuesta Estratégica (50 segundos)
 **Orador 1:**
-"Para cerrar nuestro hilo conductor, la gran oportunidad operativa es cruzar y solucionar ambos problemas. Uber pierde su dinero por culpa del azar: los usuarios piden autos de forma lenta y desorganizada, por lo que nunca logran llenar los asientos a tiempo. Por su parte, el Movistar Arena sufre un caos porque, al finalizar eventos, miles de personas salen de forma abrupta a pedir transporte, colapsando la zona.
+"Para cerrar nuestro hilo conductor, la gran oportunidad operativa es cruzar y solucionar ambos problemas. Uber pierde su dinero por culpa del azar: los usuarios piden autos de forma lenta y desorganizada, por lo que nunca logran llenar los asientos a tiempo y gastaban gasolina dando vueltas. Por su parte, el Movistar Arena sufre un caos porque, al finalizar eventos, miles de personas salen de forma abrupta a pedir transporte, colapsando la zona.
 La **Sinergia** es clara: El Movistar Arena puede ofrecer a sus clientes 'Planners' (los más organizados y predecibles) un paquete exclusivo que integre su boleta VIP con asientos en rutas pre-programadas de UBER Pool para el regreso."
 
 ---
