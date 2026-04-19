@@ -71,12 +71,12 @@ Sin embargo, noten la tabla inferior: **beta 5 (Seat Front) y beta 6 (Seat Balco
 
 ### Slide 11: Sinergia Operativa - Propuesta Estratégica (50 segundos)
 **Orador 1:**
-"Esto nos lleva de regreso al hilo conductual. El 'cuello de botella' logístico que quebraba los pronósticos financieros de UBER eran las peticiones masivas sorpresivas de forma asincrónica. Por decir un escenario, los jóvenes caóticos del *Last-Minute* saliendo sin advertencia de un coliseo agotando las grillas de autos y la plataforma ineficiente.
-Nuestra **propuesta** integra la solución cruzando el modelo: Movistar Arena podría reservar y asegurar viajes de *Uber Pool Exclusivos* atados a las zonas *Planner* previas al concierto, asegurando densidad con anticipación."
+"Para cerrar nuestro hilo conductor, la gran oportunidad operativa es cruzar y solucionar ambos problemas. Uber pierde su dinero por culpa del azar: los usuarios piden autos de forma lenta y desorganizada, por lo que nunca logran llenar los asientos a tiempo. Por su parte, el Movistar Arena sufre un caos porque, al finalizar eventos, miles de personas salen de forma abrupta a pedir transporte, colapsando la zona.
+La **Sinergia** es clara: El Movistar Arena puede ofrecer a sus clientes 'Planners' (los más organizados y predecibles) un paquete exclusivo que integre su boleta VIP con asientos en rutas pre-programadas de UBER Pool para el regreso."
 
 ---
 
-### Slide 12: Conclusión (40 segundos)
+### Slide 12: Conclusiones (30 segundos)
 **Orador 3:**
-"Así las plataformas cooperarían rentablemente. UBER afianza su meta de ejecutar pools de alta densidad librándose del azar y de los fracasos de su experimento temprano, mientras el Arena disuelve congestiones caóticas en su logística externa, con una certidumbre paramétrica medible gracias al Bayes.
-La moraleja del modelo es que podemos prender vínculos y alianzas productivas entre diferentes mercados basándonos explícitamente en la cuantificación de una probabilidad. Gracias."
+"Con esta estrategia propuesta, ¡ambos ganan! UBER salva su logística y asegura rentabilidad teniendo por fin autos 100% llenos desde horas calculadas exactamente. Y el Movistar Arena gana al liberar la presión de sus puertas evacuando clientes directamente en rutas listas y seguras.
+El valor real de todo lo que calculamos hoy radicó en tener la capacidad analítica estricta de predecir el orden dentro del caos, aislando estadísticamente a esos 'clientes organizados' para construir esta gran alianza de negocios. Muchas gracias."

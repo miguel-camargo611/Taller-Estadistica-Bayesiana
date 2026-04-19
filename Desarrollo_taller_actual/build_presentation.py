@@ -673,18 +673,18 @@ tbody tr:hover td { background: var(--surface-hi); }
     <h2 class="slide-title fade-in" style="text-align:left;margin-bottom:16px;">Sinergia <span class="gold">Operativa</span></h2>
     <div class="row fade-in">
       <div class="col card card-red">
-        <h4 style="color:var(--red);margin-bottom:10px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">El Problema</h4>
-        <p style="font-size:0.9rem;color:var(--text-2);">UBER Pool sufre de <strong style="color:var(--text-1)">demanda asincrónica masiva</strong>. Los perfiles <em>Last-Minute</em> generan peticiones repentinas que colapsan la plataforma y reducen ganancias.</p>
+        <h4 style="color:var(--red);margin-bottom:10px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">Problema de UBER</h4>
+        <p style="font-size:0.9rem;color:var(--text-2);">Sufre pérdidas financieras porque la gente pide viajes <strong style="color:var(--text-1)">al azar y despacio</strong>. Es imposible saber a qué hora agrupar demasiados pasajeros a la vez.</p>
       </div>
-      <div style="display:flex;align-items:center;font-size:1.8rem;color:var(--gold);padding:0 8px;">→</div>
-      <div class="col card card-green">
-        <h4 style="color:var(--green);margin-bottom:10px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">La Solución</h4>
-        <p style="font-size:0.9rem;color:var(--text-2);">El perfil <em>Planner</em> del Arena es <strong style="color:var(--text-1)">altamente receptivo</strong> a ofertas previas y gasta más en extras. Reservas anticipadas de UBER Pool hacen el puente.</p>
+      <div style="display:flex;align-items:center;font-size:1.8rem;color:var(--gold);padding:0 8px;">+</div>
+      <div class="col card card-red">
+        <h4 style="color:var(--red);margin-bottom:10px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">Problema del Arena</h4>
+        <p style="font-size:0.9rem;color:var(--text-2);">Al salir del concierto hay <strong style="color:var(--text-1)">caos logístico total</strong>. Miles de personas exigen rutas simultáneamente colapsando semáforos y plataformas.</p>
       </div>
     </div>
-    <div class="card fade-in" style="text-align:center;border:1px solid var(--gold);background:rgba(245,200,66,0.05);padding:20px;margin-top:4px;">
-      <h3 style="color:var(--gold);font-size:1.4rem;margin-bottom:10px;">💡 Combos Logísticos Anticipados</h3>
-      <p style="color:var(--text-2);font-size:0.95rem;max-width:700px;margin:0 auto;">Movistar Arena integra <strong style="color:var(--text-1)">reservas de UBER Pool exclusivas</strong> en la preventa de zonas Planner. UBER obtiene densidad asegurada. El Arena elimina congestión post-concierto.</p>
+    <div class="card fade-in card-gold" style="text-align:center;padding:20px;margin-top:14px;background:rgba(245,200,66,0.05);">
+      <h3 style="color:var(--gold);font-size:1.3rem;margin-bottom:8px;">💡 La Gran Solución Compartida</h3>
+      <p style="color:var(--text-2);font-size:0.95rem;max-width:800px;margin:0 auto;line-height:1.6;">Movistar Arena puede lanzar tratos y ofertas a sus clientes organizados (<strong>Planners</strong>): compren boletas VIP y <strong>aseguren en conjunto asientos de UBER Pool</strong> programados específicamente para la hora de salida.</p>
     </div>
   </div>
   <div class="pg">11 / 12</div>
@@ -693,20 +693,20 @@ tbody tr:hover td { background: var(--surface-hi); }
 <!-- SLIDE 12 -->
 <section class="slide" id="s12">
   <div class="content">
-    <p class="slide-tag fade-in">Síntesis</p>
+    <p class="slide-tag fade-in">Síntesis para Gerencia</p>
     <h2 class="slide-title fade-in" style="text-align:left;margin-bottom:16px;"><span class="gold">Conclusiones</span></h2>
     <div class="row fade-in">
-      <div class="col card card-red">
-        <h4 style="color:var(--red);margin-bottom:8px;font-size:0.82rem;text-transform:uppercase;">Hallazgo I — UBER Pool</h4>
-        <p style="font-size:0.92rem;color:var(--text-2);">Con una certeza estricta del <strong style="color:var(--red);font-size:1.1rem;">98.7%</strong>, UBER Pool redujo las ganancias de los conductores a corto plazo en el experimento evaluado.</p>
+      <div class="col card card-green">
+        <h4 style="color:var(--green);margin-bottom:8px;font-size:0.9rem;text-transform:uppercase;">Gana UBER Pool</h4>
+        <p style="font-size:0.95rem;color:var(--text-2);line-height:1.5;">Elimina el azar y vuelve a ser rentable. Su logística se salva porque asegura tener miles de vehículos operando con <strong style="color:var(--green)">100% de la máxima capacidad</strong> en grupos pre-organizados.</p>
       </div>
       <div class="col card card-green">
-        <h4 style="color:var(--green);margin-bottom:8px;font-size:0.82rem;text-transform:uppercase;">Hallazgo II — Movistar Arena</h4>
-        <p style="font-size:0.92rem;color:var(--text-2);">Atributos como la <strong style="color:var(--text-1)">Edad</strong> o <strong style="color:var(--text-1)">Consumo en Concesiones</strong> son propulsores infalibles y correlacionados hacia la actitud previsora de un <em>Planner</em>.</p>
+        <h4 style="color:var(--green);margin-bottom:8px;font-size:0.9rem;text-transform:uppercase;">Gana Movistar Arena</h4>
+        <p style="font-size:0.95rem;color:var(--text-2);line-height:1.5;">Mejora drásticamente la experiencia de salida. Logra evacuar a sus asistentes organizadamente, disolviendo el angustiante <strong style="color:var(--green)">embudo de personas y vehículos</strong> en sus puertas.</p>
       </div>
     </div>
-    <div class="card fade-in" style="text-align:center;padding:20px;">
-      <p style="font-size:1.05rem;color:var(--text-2);max-width:750px;margin:0 auto;line-height:1.7;">La <strong style="color:var(--accent)">Inferencia Bayesiana</strong> nos permitió cuantificar la incertidumbre con total precisión para conectar dos mercados aparentemente dispares, logrando formular una propuesta directiva de valor conjunta basada en estadística probabilística.</p>
+    <div class="card fade-in" style="text-align:center;padding:18px;margin-top:16px;background:rgba(255,255,255,0.03);">
+      <p style="font-size:1.05rem;color:var(--text-1);max-width:780px;margin:0 auto;line-height:1.6;">El valor real de nuestro análisis radicó en tener la certeza estadística de <strong style="color:var(--gold)">qué clientes son organizados</strong>, convirtiendo esa cualidad en la piedra angular para crear una gran estrategia conjunta.</p>
     </div>
   </div>
   <div class="pg">12 / 12</div>
