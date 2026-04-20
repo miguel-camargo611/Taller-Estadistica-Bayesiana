@@ -39,7 +39,7 @@ Ese intervalo de credibilidad que oscila entre -2300 a -135 no cruza el cero. Es
 ### Slide 6: Parte II - Movistar Arena & Setup Bayesiano (40 segundos)
 **Orador 3:**
 "Ahora, pasemos al *Movistar Arena*. Su mayor problema es predecir tipos de consumidores. Sabemos que las personas compran impulsivamente (*Last-Minute*), moderadamente, o como parte de un plan anticipado (*Planner*).
-Como las variables son tres escalones sucesivos, usamos un modelo de **Logit Ordinal**. Las distribuciones A Priori aquí son formales y dispersas: los betas distribuyen Normal con media cero y varianza de 100, para que el sistema de MCMC, mediante PyMC, logre inferir de forma objetiva sobre los 'cutpoints'."
+Como las variables son tres escalones sucesivos, usamos un modelo de **Logit Ordinal**. Las distribuciones A Priori aquí son formales y dispersas: los betas distribuyen Normal con media cero y varianza de 1, para que el sistema de MCMC, mediante PyMC, logre inferir de forma objetiva sobre los 'cutpoints'."
 
 ---
 
