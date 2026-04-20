@@ -26,7 +26,7 @@ Utilizamos como predictores clave el tratamiento (si activamos Pool o no), la ho
 **Orador 2:**
 "Al actualizar matemáticamente la certidumbre con los datos empíricos de las fórmulas cerradas, llegamos a estos resultados posteriores en la pantalla. *(El Orador desliza los distintos gráficos por cada variable en el carrusel de la derecha)*.
 Si detallamos la tabla fija que ven a su izquierda, la métrica estelar siempre es el Parámetro de Tratamiento $\beta_1$.
-Ese intervalo de credibilidad que oscila entre -2300 a -135 no cruza el cero. Esto confirma categóricamente que el efecto es negativo en la mayoría absoluta de los escenarios, indicando que UBER Pool redujo estructuralmente las ganancias del chofer."
+Ese intervalo de credibilidad que oscila entre -2371 a -135 no cruza el cero. Esto confirma categóricamente que el efecto es negativo en la mayoría absoluta de los escenarios, indicando que UBER Pool redujo estructuralmente las ganancias del chofer."
 
 ---
 
